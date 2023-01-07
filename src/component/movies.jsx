@@ -4,33 +4,51 @@ import { getMovies } from '../service/fakeMoviesService';
 export default class Movies extends Component {
     state = { 
         movies: getMovies()
-     } 
+     };
+
+     handleDelete = (movie) => {
+        const movies = this.state.movies.filter(m => m._id !== movie._id);
+        this.setState({movies})
+     }
+
+
     render() { 
+        const {length: count} = this.state.movies
+        if (count === 0)
+            return <p class="m-10 bg-gray-400 w-96 rounded p-3">There are no movies in the database.</p>
 
-       return <table class="w-5/6 divide-y m-auto mt-10 divide-gray-300">
-
+       return ( 
+       
+        <div>
+        <p class="m-10 bg-gray-400 w-96 rounded p-3">Showing {count} movies in the database.</p>
+        <table class="w-5/6 divide-y m-auto mt-10 divide-gray-300">
         <thead class="bg-gray-50">
             <tr>
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Title</th>
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Genre</th>
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Stock</th>
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Rate</th>
+                <th></th>
             </tr>
         </thead>
 
         <tbody class="divide-y divide-gray-200 bg-white">
             {this.state.movies.map(movie =>(
-            <tr>
+            <tr key={movie._id}>
                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{movie.title}</td>
                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{movie.genre.name}</td>
                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{movie.numberInStock}</td>
                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{movie.dailyRentalRate}</td>
+               <td> <button onClick={() => this.handleDelete(movie)} class="bg-red-400 p-2 rounded">Delete</button> </td>
             </tr>
 
             ))}
         </tbody>
 
     </table>
+        </div>
+       
+       )
 
     }
 }
