@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getMovies } from '../service/fakeMoviesService';
+import Like from './common/like';
 
 export default class Movies extends Component {
     state = { 
@@ -11,6 +12,14 @@ export default class Movies extends Component {
         this.setState({movies})
      }
 
+     handleLike = (movie) => {
+        const movies = [...this.state.movies]
+        const index = movies.indexOf(movie)
+        movies[index] = {...movies[index]}
+        movies[index].liked   = !movies[index].liked
+        this.setState({movies})
+
+     }
 
     render() { 
         const {length: count} = this.state.movies
@@ -29,6 +38,7 @@ export default class Movies extends Component {
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Stock</th>
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Rate</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
 
@@ -39,6 +49,9 @@ export default class Movies extends Component {
                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{movie.genre.name}</td>
                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{movie.numberInStock}</td>
                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{movie.dailyRentalRate}</td>
+               <td>
+                    <Like liked={movie.liked} onClick={() => this.handleLike(movie)} />
+               </td>
                <td> <button onClick={() => this.handleDelete(movie)} class="bg-red-400 p-2 rounded">Delete</button> </td>
             </tr>
 
