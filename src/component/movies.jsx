@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getMovies } from '../service/fakeMoviesService';
 import Like from './common/like';
 import Pagination from './common/pagination';
+import { panginate } from '../utils/paginate';
 
 export default class Movies extends Component {
     state = { 
@@ -31,12 +32,12 @@ export default class Movies extends Component {
 
     render() { 
         const {length: count} = this.state.movies
-        const {pageSize , currentPage} = this.state
+        const {pageSize , currentPage , movies: allMovies} = this.state
 
 
-        if (count === 0)
-            return <p class="m-10 bg-gray-400 w-96 rounded p-3">There are no movies in the database.</p>
+        if (count === 0) return <p class="m-10 bg-gray-400 w-96 rounded p-3">There are no movies in the database.</p>
 
+        const movies = panginate(allMovies , currentPage , pageSize)
        return ( 
        
         <div class="m-10">
@@ -56,7 +57,7 @@ export default class Movies extends Component {
         </thead>
 
         <tbody class="divide-y divide-gray-200 bg-white">
-            {this.state.movies.map(movie =>(
+            {movies.map(movie =>(
             <tr key={movie._id}>
                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{movie.title}</td>
                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{movie.genre.name}</td>
