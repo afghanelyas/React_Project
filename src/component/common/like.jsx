@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 const Like = (props) => {
  
-        let classes = "fa fa-heart cursor-pointer "
+        let classes = "fa fa-heart cursor-pointer mr-10 "
         if (!props.liked) classes += "_o"
         return (
 
