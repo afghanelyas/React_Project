@@ -12,7 +12,7 @@ const Pagination = props => {
     
     return <nav>
         
-        <ul className="pagination flex">
+        <ul className="pagination flex p-5">
             {pages.map(page => (
                 <li key={page} className={page === currentPage ? 'page-item active' : 'page-item'}>
                     <a
